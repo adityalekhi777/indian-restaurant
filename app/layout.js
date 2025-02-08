@@ -1,16 +1,15 @@
 
-import { ChakraProvider } from '@chakra-ui/react';
-import Navbar from '../components/Navbar';
+
+import Providers from "../providers"
+
 
 export default function RootLayout({ children }) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <body>
-        <ChakraProvider>
-          <Navbar />
-          {children}
-        </ChakraProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
-  );
+  )
 }
+

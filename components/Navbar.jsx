@@ -1,38 +1,58 @@
 "use client"
 
+import { useSelector, useDispatch } from "react-redux"
 import { Box, Flex, Spacer, Button, Text } from "@chakra-ui/react"
-import NextLink from "next/link"
+import Link from "next/link"
+import { clearUser } from "../lib/slices/authSlice"
+import { signOut } from "firebase/auth"
+import { auth } from "../firebase"
 
 export default function Navbar() {
- 
-  let isAuthenticated = true;
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+  const dispatch = useDispatch()
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+      dispatch(clearUser())
+      window.location.href = "/"
+    } catch (error) {
+      console.error("Error signing out: ", error)
+    }
+  }
 
   return (
     <Box bg="blue.500" px={4} py={3}>
       <Flex alignItems="center">
-        <NextLink href="/" passHref>
+        <Link href="/" passHref>
           <Text fontSize="xl" fontWeight="bold" color="white" cursor="pointer">
             Desi Taste
           </Text>
-        </NextLink>
+        </Link>
         <Spacer />
         <Box>
-          <Button as={NextLink} href="/" variant="ghost" color="white" mr={2}>
-            Home
-          </Button>
-          {isAuthenticated && (
-            <Button as={NextLink} href="/cart" variant="ghost" color="white" mr={2}>
-              Cart
+          <Link href="/" passHref>
+            <Button as="a" variant="ghost" color="white" mr={2}>
+              Home
             </Button>
+          </Link>
+          {isAuthenticated && (
+            <Link href="/cart" passHref>
+              <Button as="a" variant="ghost" color="white" mr={2}>
+                Cart
+              </Button>
+            </Link>
           )}
           {isAuthenticated ? (
-            <Button  variant="outline" color="white">
+            <Button onClick={handleLogout} variant="outline" color="white">
               Logout
             </Button>
           ) : (
-            <Button as={NextLink} href="/login" variant="outline" color="white">
-              Login
-            </Button>
+            <Link href="/login" passHref>
+              <Button as="a" variant="outline" color="white">
+                Login
+              </Button>
+            </Link>
           )}
         </Box>
       </Flex>

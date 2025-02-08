@@ -1,8 +1,6 @@
-"use client"
-
 import { configureStore } from "@reduxjs/toolkit"
-import cartReducer from "./slices/cartSlice"
-import authReducer from "./slices/authSlice"
+import cartReducer from "./lib/slices/cartSlice"
+import authReducer from "./lib/slices/authSlice"
 
 export const store = configureStore({
   reducer: {
@@ -11,4 +9,3 @@ export const store = configureStore({
   },
 })
 
-export default store
