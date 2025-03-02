@@ -7,18 +7,21 @@ import { auth } from "../../firebase"
 import { setUser } from "../../lib/slices/authSlice"
 import { Box, Button, FormControl, FormLabel, Input, VStack, Heading, Text } from "@chakra-ui/react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"; 
 
 export default function Login() {
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
   const dispatch = useDispatch()
+  const route = useRouter();
+
 
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
       dispatch(setUser({ uid: userCredential.user.uid, email: userCredential.user.email }))
-      window.location.href = "/"
+      route.push('/')
     } catch (error) {
       console.error("Error logging in:", error)
     }

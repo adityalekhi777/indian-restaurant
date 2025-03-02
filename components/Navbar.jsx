@@ -11,6 +11,8 @@ export default function Navbar() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
   const dispatch = useDispatch()
 
+  console.log(isAuthenticated)
+
   const handleLogout = async () => {
     try {
       await signOut(auth)
@@ -37,11 +39,23 @@ export default function Navbar() {
             </Button>
           </Link>
           {isAuthenticated && (
-            <Link href="/cart" passHref>
-              <Button as="span" variant="ghost" color="white" mr={2}>
-                Cart
-              </Button>
-            </Link>
+            <>
+              <Link href="/watchlist" passHref>
+                <Button as="span" variant="ghost" color="white" mr={2}>
+                  Watch List
+                </Button>
+              </Link>
+              <Link href="/profile" passHref>
+                <Button as="span" variant="ghost" color="white" mr={2}>
+                  Profile
+                </Button>
+              </Link>
+              <Link href="/post-dish" passHref>
+                <Button as="span" variant="ghost" color="white" mr={2}>
+                  Post Dish
+                </Button>
+              </Link>
+            </>
           )}
           {isAuthenticated ? (
             <Button onClick={handleLogout} variant="outline" color="white">
