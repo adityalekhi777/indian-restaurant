@@ -32,13 +32,13 @@ export default function Navbar() {
         <Spacer />
         <Box>
           <Link href="/" passHref>
-            <Button as="a" variant="ghost" color="white" mr={2}>
+            <Button as="span" variant="ghost" color="white" mr={2}>
               Home
             </Button>
           </Link>
           {isAuthenticated && (
             <Link href="/cart" passHref>
-              <Button as="a" variant="ghost" color="white" mr={2}>
+              <Button as="span" variant="ghost" color="white" mr={2}>
                 Cart
               </Button>
             </Link>
@@ -49,7 +49,7 @@ export default function Navbar() {
             </Button>
           ) : (
             <Link href="/login" passHref>
-              <Button as="a" variant="outline" color="white">
+              <Button as="span" variant="outline" color="white">
                 Login
               </Button>
             </Link>
