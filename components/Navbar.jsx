@@ -1,5 +1,3 @@
-"use client"
-
 import { useSelector, useDispatch } from "react-redux"
 import { Box, Flex, Spacer, Button, Text } from "@chakra-ui/react"
 import Link from "next/link"
@@ -7,17 +5,9 @@ import { clearUser } from "../lib/slices/authSlice"
 import { signOut } from "firebase/auth"
 import { auth } from "../firebase"
 
-import { useEffect } from "react";
-import { listenForAuthChanges } from "../lib/slices/authSlice";
-
 export default function Navbar() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
   const dispatch = useDispatch()
-
-
-  useEffect(() => {
-    dispatch(listenForAuthChanges());
-  }, [dispatch]);
 
   const handleLogout = async () => {
     try {
