@@ -1,7 +1,3 @@
-"use client"
-
-import { useEffect, useState } from "react"
-import { useParams } from "next/navigation"
 import {
   Box,
   Heading,
@@ -13,57 +9,32 @@ import {
   UnorderedList,
   OrderedList,
   ListItem,
-  Spinner,
   Center,
 } from "@chakra-ui/react"
-import { db } from "../../../firebase"
+import { db } from "./../../../firebase"
 import { doc, getDoc } from "firebase/firestore"
+import { notFound } from "next/navigation"
 
-export default function DishDetails() {
-  const { id } = useParams()
-  const [dish, setDish] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+async function getDish(id) {
+  const docRef = doc(db, "dishes", id)
+  const docSnap = await getDoc(docRef)
 
-  useEffect(() => {
-    const fetchDish = async () => {
-      try {
-        const docRef = doc(db, "dishes", id)
-        const docSnap = await getDoc(docRef)
-
-        if (docSnap.exists()) {
-          setDish({
-            id: docSnap.id,
-            ...docSnap.data(),
-            // Convert Firestore Timestamp to regular date if needed
-            createdAt: docSnap.data().createdAt ? docSnap.data().createdAt.toDate() : new Date(),
-          })
-        } else {
-          setError("Dish not found")
-        }
-      } catch (err) {
-        console.error("Error fetching dish:", err)
-        setError("Error loading dish details")
-      } finally {
-        setLoading(false)
-      }
+  if (docSnap.exists()) {
+    return {
+      id: docSnap.id,
+      ...docSnap.data(),
+      // Convert Firestore Timestamp to regular date if needed
+      createdAt: docSnap.data().createdAt ? docSnap.data().createdAt.toDate() : new Date(),
     }
-
-    fetchDish()
-  }, [id])
-
-  if (loading) {
-    return (
-      <Center h="50vh">
-        <VStack>
-          <Spinner size="xl" />
-          <Text mt={4}>Loading dish details...</Text>
-        </VStack>
-      </Center>
-    )
+  } else {
+    return null
   }
+}
 
-  if (error || !dish) {
+export default async function DishDetails({ params }) {
+  const dish = await getDish(params.id)
+  if (!dish) {
+    notFound() // This will render the not-found.js page
     return (
       <Box textAlign="center" mt={8}>
         <Heading>Error</Heading>
@@ -71,7 +42,6 @@ export default function DishDetails() {
       </Box>
     )
   }
-
   return (
     <Box maxWidth="800px" margin="auto" mt={8} px={4} mb={8}>
       <VStack spacing={6} align="stretch">
@@ -131,4 +101,3 @@ export default function DishDetails() {
     </Box>
   )
 }
-

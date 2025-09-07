@@ -67,20 +67,20 @@ export default function Home() {
     }
   }
 
-  if (!isAuthenticated) {
-    return (
-      <Box textAlign="center" mt={8}>
-        <Heading>Welcome to Desi Taste</Heading>
-        <Text mt={4}>Please log in or sign up to explore delicious recipes.</Text>
-        <Button as={Link} href="/login" colorScheme="blue" mt={4} mr={2}>
-          Login
-        </Button>
-        <Button as={Link} href="/signup" colorScheme="green" mt={4}>
-          Sign Up
-        </Button>
-      </Box>
-    )
-  }
+  // if (!isAuthenticated) {
+  //   return (
+  //     <Box textAlign="center" mt={8}>
+  //       <Heading>Welcome to Desi Taste</Heading>
+  //       <Text mt={4}>Please log in or sign up to explore delicious recipes.</Text>
+  //       <Button as={Link} href="/login" colorScheme="blue" mt={4} mr={2}>
+  //         Login
+  //       </Button>
+  //       <Button as={Link} href="/signup" colorScheme="green" mt={4}>
+  //         Sign Up
+  //       </Button>
+  //     </Box>
+  //   )
+  // }
 
   if (loading) {
     return (
